@@ -1,9 +1,7 @@
+//Contact.java
 package sean.contact_mgr.model;
-
 import org.hibernate.annotations.UuidGenerator;
-
 import com.fasterxml.jackson.annotation.JsonInclude;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
