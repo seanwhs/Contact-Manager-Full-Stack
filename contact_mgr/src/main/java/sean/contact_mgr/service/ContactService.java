@@ -22,7 +22,7 @@ import static sean.contact_mgr.constant.Constant.PHOTO_DIRECTORY;
 
 
 @Service
-@Slf4j
+@Slf4j //logs to console by default
 @Transactional(rollbackOn = Exception.class)
 @RequiredArgsConstructor
 public class ContactService {
@@ -44,9 +44,13 @@ public class ContactService {
     }
 
     @SuppressWarnings("null")
-    public void deleteContact(String id){
+    public Contact deleteContact(String id){
+        Contact deletedContact = contactRepository.findById(id)
+            .orElseThrow(() -> new RuntimeException("Contact not found with ID: " + id));
         contactRepository.deleteById(id);
+        return deletedContact;
     }
+    
 
     public Contact updateContact(String id, Contact updatedContact) {
         log.info("Updating contact with ID: {}", id);
@@ -85,26 +89,23 @@ public class ContactService {
 
     //Takes in String, MultiPart File and retuns a string
     private final BiFunction<String, MultipartFile, String> photoFunction = (id, image) -> {
-        try{
-            String filename = id + fileExtension.apply(image.getOriginalFilename());
-            //if directory does not exist, create it
-            Path fileStorageLocation=Paths.get(PHOTO_DIRECTORY).toAbsolutePath().normalize();
+        String filename = id + fileExtension.apply(image.getOriginalFilename());
+        try {
+            Path fileStorageLocation = Paths.get(PHOTO_DIRECTORY).toAbsolutePath().normalize();
+            if(!Files.exists(fileStorageLocation)) { Files.createDirectories(fileStorageLocation); }
+            Files
+                .copy(
+                    image.getInputStream(), 
+                    fileStorageLocation.resolve(filename), 
+                    REPLACE_EXISTING
+                    );
             
-            if (!Files.exists(fileStorageLocation)){
-                Files.createDirectories(fileStorageLocation);
-            }
-            //save file
-            Files.copy(
-                image.getInputStream(), 
-                fileStorageLocation.resolve(id + fileExtension.apply(image.getOriginalFilename())), 
-                REPLACE_EXISTING);
-            //return url
-            log.info("Saved picture for user ID: {} successfully", id);
+            log.info("Picture for user ID: {} saved successfully", id);
+
             return ServletUriComponentsBuilder
-                .fromCurrentContextPath()
-                .path("/contacts/image/" + filename)
-                .toString();
-        } catch (Exception exception){
+                    .fromCurrentContextPath()
+                    .path("/contacts/image/" + filename).toUriString();
+        } catch (Exception exception) {
             throw new RuntimeException("Unable to save image");
         }
     };
