@@ -52,6 +52,14 @@ public class ContactController {
         return ResponseEntity.ok().body(contactService.uploadPhoto(id, file));
     }
 
+    @PutMapping("/{id}")
+    public ResponseEntity<Contact> updateContact(
+            @PathVariable String id,
+            @RequestBody Contact updatedContact
+    ) {
+        Contact updated = contactService.updateContact(id, updatedContact);
+        return ResponseEntity.ok(updated);
+    }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteContact(@PathVariable String id) {

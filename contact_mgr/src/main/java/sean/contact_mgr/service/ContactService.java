@@ -48,6 +48,25 @@ public class ContactService {
         contactRepository.deleteById(id);
     }
 
+    public Contact updateContact(String id, Contact updatedContact) {
+        log.info("Updating contact with ID: {}", id);
+        Optional<Contact> optionalContact = contactRepository.findById(id);
+        if (optionalContact.isPresent()) {
+            Contact existingContact = optionalContact.get();
+            existingContact.setName(updatedContact.getName());
+            existingContact.setEmail(updatedContact.getEmail());
+            existingContact.setTitle(updatedContact.getTitle());
+            existingContact.setPhone(updatedContact.getPhone());
+            existingContact.setAddress(updatedContact.getAddress());
+            existingContact.setStatus(updatedContact.getStatus());
+            // Optionally, you can update other fields here
+
+            return contactRepository.save(existingContact);
+        } else {
+            throw new RuntimeException("Contact not found with ID: " + id);
+        }
+    }
+    
     public String uploadPhoto(String id, MultipartFile file){
         log.info("Saving picture for user ID: {}", id);
         Contact contact = getContact(id);
