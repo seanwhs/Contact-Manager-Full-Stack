@@ -1,5 +1,6 @@
+//TestDataInitializer.java
 package sean.contact_mgr;
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.List;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
@@ -18,15 +19,23 @@ public class TestDataInitializer implements CommandLineRunner {
     @SuppressWarnings("null")
     @Override
     public void run(String... args) throws Exception {
-        List<Contact> contacts = Arrays.asList(
-                new Contact("1", "John Doe", "john.doe@email.com", "Software Engineer", "+65 9876 5432", "123 Main St", "Active", null),
-                new Contact("2", "Jane Smith", "jane.smith@email.com", "Product Manager", "+60 1234 56789", "456 Elm St", "Active", null),
-                new Contact("3", "Michael Johnson", "michael.johnson@email.com", "Sales Representative", "+86 123 4567 8901", "789 Oak St", "Inactive", null),
-                new Contact("4", "Emily Davis", "emily.davis@email.com", "Marketing Coordinator", "+886 9876 54321", "101 Maple Ave", "Active", null),
-                new Contact("5", "Christopher Lee", "chris.lee@email.com", "Financial Analyst", "+852 1234 5678", "222 Pine St", "Active", null),
-                new Contact("6", "Keanu Revves", "keanu.reevs@email.com", "Scrum Master", "+65 8898 7615", "0101 Matrix Rd", "Active", null)
-        );
-
+        List<Contact> contacts = generateTestData(50);
         contactRepository.saveAll(contacts);
+    }
+
+    private List<Contact> generateTestData(int count) {
+        List<Contact> testData = new ArrayList<>();
+        for (int i = 1; i <= count; i++) {
+            String id = String.valueOf(i);
+            String name = "Test User " + i;
+            String email = "user" + i + "@example.com";
+            String jobTitle = "Test Job " + i;
+            String phone = "+65 1234 5678"; // Replace with your desired phone format or generate dynamically
+            String address = "Test Address " + i;
+            String status = i % 2 == 0 ? "Active" : "Inactive"; // Alternate between Active and Inactive
+
+            testData.add(new Contact(id, name, email, jobTitle, phone, address, status, null));
+        }
+        return testData;
     }
 }
