@@ -1,14 +1,11 @@
+//CorsConfig.java
 package sean.contact_mgr.config;
-
-
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
-
 import java.util.List;
-
 import static sean.contact_mgr.constant.Constant.X_REQUESTED_WITH;
 import static org.springframework.http.HttpHeaders.ACCEPT;
 import static org.springframework.http.HttpHeaders.ACCESS_CONTROL_ALLOW_CREDENTIALS;
@@ -24,14 +21,6 @@ import static org.springframework.http.HttpMethod.OPTIONS;
 import static org.springframework.http.HttpMethod.PATCH;
 import static org.springframework.http.HttpMethod.POST;
 import static org.springframework.http.HttpMethod.PUT;
-
-/**
- * @author Junior RT
- * @version 1.0
- * @license Get Arrays, LLC (<a href="https://www.getarrays.io">Get Arrays, LLC</a>)
- * @email getarrayz@gmail.com
- * @since 11/23/2023
- */
 
 @Configuration
 public class CorsConfig {

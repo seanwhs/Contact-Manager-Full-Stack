@@ -5,7 +5,6 @@ import org.springframework.stereotype.Repository;
 import sean.contact_mgr.model.Contact;
 import java.util.Optional;
 
-
 @Repository
 public interface ContactRepository extends JpaRepository <Contact, String> {
     @SuppressWarnings("null")

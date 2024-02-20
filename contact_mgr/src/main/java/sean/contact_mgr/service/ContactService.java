@@ -20,7 +20,6 @@ import java.util.function.Function;
 import static java.nio.file.StandardCopyOption.REPLACE_EXISTING;
 import static sean.contact_mgr.constant.Constant.PHOTO_DIRECTORY;
 
-
 @Service
 @Slf4j //logs to console by default
 @Transactional(rollbackOn = Exception.class)

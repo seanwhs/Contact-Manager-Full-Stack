@@ -1,6 +1,5 @@
 //ContactController.java
 package sean.contact_mgr.controller;
-
 import java.io.IOException;
 import java.net.URI;
 import java.nio.file.Files;
